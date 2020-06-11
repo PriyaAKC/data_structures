@@ -1,18 +1,31 @@
+# import node
+# from linked_list import node
+
+# import node
+import sys
+
 class Node(object):
     """
     Node class for doubly linked list
     """
 
     def __init__(self, data):
-        self.data = data
+        self.data = data  # is this correct assignment?
         self.next = None
+        self.prev = None
+
+        # self.data, self.next = node.Node(data) # is this correct assignment?
+        # self.next = None
         self.prev = None
 
 
 class DoubleLL:
+    """
+    Operations performed
+    """
 
     def __init__(self):
-        self.head = None  # note no need to define the next/prv attribute: Why? coz you never did :P
+        self.head = None
         self.size = 0
 
     def display(self):
@@ -38,19 +51,11 @@ class DoubleLL:
             self.size += 1
             return
 
-        # next of new nod
-        # new_node.next = self.head.next !!!Need to think in terms of two way connections
-        self.head.prev = new_node  # from None update to ne node
+        self.head.prev = new_node  # from None update to nee node
         new_node.next = self.head
         self.head = new_node
-        new_node.prev = None  # Is this redundant ; by defn its already right?
+        new_node.prev = None
         self.size += 1
-
-    #         while curr_node.next is not None: No need yo traverse till end its a dll, not circular
-    #             curr_node = curr_node.next
-    #         curr_node.next = new_node
-    #         self.head = curr_node
-    #         self.size +=1
 
     def add_at_end(self, data):
         curr_node = self.head
@@ -67,15 +72,15 @@ class DoubleLL:
 
         while curr_node.next is not None:
             curr_node = curr_node.next
-        new_node.next = curr_node.next  # thats basiclly none
-        curr_node.next = new_node  # is this redundant?? No!
+        new_node.next = curr_node.next  # that's basically none
+        curr_node.next = new_node
         new_node.prev = curr_node  # This becomes important to define in double, prev kya hai??
         self.size += 1
 
-    def add_before_node(self, data, position):
+    def add_before_position(self, data, position):
         curr_node = self.head
         new_node = Node(data)
-        counter = 0
+        counter = 1
 
         # spl case of position =1
         if position == 1:
@@ -84,21 +89,150 @@ class DoubleLL:
             new_node.prev = None  # required?
 
         while counter != position - 1:
+            print("in")
             curr_node = curr_node.next
             counter += 1
+        curr_node.next.prev = new_node
         new_node.next = curr_node.next
         new_node.prev = curr_node
-        curr_node.next.prev = new_node
         curr_node.next = new_node
         self.size += 1
 
+    def add_after_position(self, data, position):
+        new_node = Node(data)
+        curr_node = self.head
+        counter = 0
+
+        if position == 1:
+            self.add_at_begin(data)
+            return
+        if position == self.size:
+            self.add_at_end(data)
+            return
+
+        while counter != position:
+            curr_node = curr_node.next
+            counter += 1
+        curr_node.next.prev = new_node  # Verify if you need a temp var, or this will work?
+        new_node.next = curr_node.next
+        new_node.prev = curr_node
+        curr_node.next = new_node
+        self.size += 1
+
+    def del_node(self, key):
+        curr_node = self.head
+
+        while curr_node:
+            # Case1 : when key is at the head
+            if curr_node.prev is None and curr_node.data == key:
+                curr_node.next.prev = None
+                self.head = curr_node.next
+                curr_node = None
+                return
+            # Case2
+            elif curr_node.next is None and curr_node.data == key:
+                prev = curr_node.prev
+                prev.next = None
+                curr_node = None
+                return
+            # Case 3: when key in middle somewhere : Should there be a special case of 2 elements?
+            elif curr_node is not None and curr_node.data == key:
+                prev = curr_node.prev
+                prev.next = curr_node.next
+                curr_node.next.prev = prev
+                curr_node = None
+                return
+        curr_node = curr_node.next
+
+    def reverse(self):  # Update for efficient method
+
+        # begin_point, end_point = self.head # ERR! cannot unpack non-iterable Node object
+        begin_point = self.head
+        end_point = self.head
+
+        while end_point.next:  # Not very efficient since, you need to go through entire loop once already
+            end_point = end_point.next
+        temp = -1
+        count = 1
+
+        # if self.size%2 == 0:
+
+        while count <= int(self.size // 2):
+            temp = begin_point.data
+            begin_point.data = end_point.data
+            end_point.data = temp
+            begin_point = begin_point.next
+            end_point = end_point.prev
+            count += 1
+        print(self.head.data)
+
+    def remove_duplicates(self):  # Update for correctness
+        unique_set = set()
+        curr_node = self.head
+
+        while curr_node:
+            if curr_node.data in unique_set:
+                print("Duplicate removed", curr_node.data)
+                self.del_node(curr_node)
+            else:
+                unique_set.add(curr_node.data)
+
+    def sum_pairs(self, value):
+        curr_node = self.head
+        pairs = list()
+
+        while curr_node:
+            next_node = curr_node.next
+            # print("In loop1")
+            while next_node:
+                # print("In loop2")
+                sum_val = curr_node.data + next_node.data
+                # print("sum_val",sum_val)
+                if sum_val == value:
+                    # print("pair found",curr_node.data, next_node.data )
+                    # pairs.append((curr_node.data, next_node.data))
+                    pairs.append((curr_node.data, next_node.data))
+                    # return curr_node.data, next_node.data # Dont these get printed?
+                if next_node.next is None:
+                    break
+                next_node = next_node.next
+            if curr_node.next is None:
+                break
+            curr_node = curr_node.next
+        if not pairs:  # Condition to check empty list : a short-circuit operator, so it only evaluates the second argument if the first one is false
+            print("None such pairs found")  # empty sequences evaluate to false according to the PEP 8 standard
+        return pairs
+
 
 def main():
-    dll = DoubleLL()
-    dll.add_at_begin(4)
-    dll.add_at_end(5)
-    print("Size", dll.size)
-    dll.display()
+    print(sys.path)
+    # dll = DoubleLL()
+    # dll.add_at_begin(3)
+    # dll.add_at_end(5)
+    # dll.display()
+    # print("##########")
+    # print("Size", dll.size)
+    # dll.add_before_position(4, 2)
+    # dll.display()
+    # print("##########")
+    # dll.add_after_position(6, 3)
+    # print("Size", dll.size)
+    # dll.display()
+    # print("##########")
+    # dll.del_node(3)
+    # dll.display()
+    # print("##########")
+    # dll.del_node(6)
+    # dll.display()
+    # dll.reverse()
+    # dll.display()
+    # dll.add_before_position(4, 2)
+    # dll.display()
+    # print("********")
+    # dll.remove_duplicates()
+    # dll.display()
+    # print("##########")
+    # print(dll.sum_pairs(12))
 
 
 if __name__ == '__main__':
