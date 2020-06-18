@@ -15,13 +15,13 @@ class Queue(object):
     def display_queue(self):
         # return self.items  #=> Should this be the case or below: use print(func_call) in that call
         for i in self.items:
-            print(i, end=",")
+            print(i, end=" ")
         print("")
 
-    def enque(self, data):  # same as push in stack
+    def enqueue(self, data):  # same as push in stack
         self.items.append(data)
 
-    def deque(self):  # similar  to pop in stack
+    def dequeue(self):  # similar  to pop in stack
         if not self.is_empty():
             return self.items.pop(0)
 
@@ -35,12 +35,12 @@ class Queue(object):
 def main():
     que = Queue()
     print(que.is_empty())
-    que.enque(8)
-    # que.enque(9)
-    # que.enque(10)
+    que.enqueue(8)
+    que.enqueue(9)
+    que.enqueue(10)
     que.display_queue()  # call using print(fn) when return is used in fn definition
     print("####")
-    que.deque()
+    que.dequeue()
     que.display_queue()
     print("####")
     print("Size", que.size())

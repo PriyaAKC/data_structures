@@ -17,47 +17,48 @@ class BinaryTree(object):
 
     def print_tree(self, traversal_type):
         if traversal_type == 'preorder':
-            return self.dfs_pre_order_display(self.root)
+            self.__dfs_pre_order_display(self.root)
         elif traversal_type == "inorder":
-            return self.dfs_in_order_display(self.root)
+            self.__dfs_in_order_display(self.root)
         elif traversal_type == "postorder":
-            return self.dfs_post_order_display(self.root)
+            self.__dfs_post_order_display(self.root)
         elif traversal_type == 'levelorder':
-            return self.level_order_traversal(self.root)
+            self.__level_order_traversal(self.root)
         else:
             print("Traversal type {} is not supported.".format(traversal_type))
+        print("")
 
-    def dfs_pre_order_display(self, start):
+    def __dfs_pre_order_display(self, start):
         """
         Order : "Root->Left->Right"
         :param start: node that gets updated on every recursive call of the function
-        :param traversal: string displaying the result on every recursive call
         :return:
         """
         if start:
-            print(start.data, end=" ")
-            self.dfs_pre_order_display(start.left)
-            self.dfs_pre_order_display(start.right)
+            print(start, end=" ")
+            self.__dfs_pre_order_display(start.left)
+            self.__dfs_pre_order_display(start.right)
 
-    def dfs_in_order_display(self, start):
+    def __dfs_in_order_display(self, start):
         """
         Order : "Left->Root->Right"
         """
         if start:
-            self.dfs_in_order_display(start.left)
-            print(start.data, end=" ")
-            self.dfs_in_order_display(start.right)
+            self.__dfs_in_order_display(start.left)
+            print(start, end=" ")
+            self.__dfs_in_order_display(start.right)
 
-    def dfs_post_order_display(self, start):
+    def __dfs_post_order_display(self, start):
         """
         Order : "Left->Right->Root"
         """
         if start:
-            self.dfs_post_order_display(start.left)
-            self.dfs_post_order_display(start.right)
-            print(start.data, end=" ")
+            self.__dfs_post_order_display(start.left)
+            self.__dfs_post_order_display(start.right)
+            print(start, end=" ")
 
-    def level_order_traversal(self, start):
+    @staticmethod
+    def __level_order_traversal(start):
         """
         the idea in this case is unlike the methods(orders) of DFS traversal which are recursive, same can't be applied
         Hence to traverse at tree at each level, use of another data structure with appropriate logic is used
@@ -68,19 +69,17 @@ class BinaryTree(object):
             return
 
         que = queue.Queue()
-        que.enque(start)
+        que.enqueue(start)
 
         # Now a while loop can be run to iterate through the elements
         while que.size() > 0:  # should be printed & check its children till its empty
-            node = que.deque()  # this returns node, not valu
-            print(node.data, end=" ")  # can alternatively define peek function in the class defn of queue
+            node = que.dequeue()  # this returns node, not value
+            print(node, end=" ")  # can alternatively define peek function in the class defn of queue
 
             if node.left:
-                que.enque(node.left)
+                que.enqueue(node.left)
             if node.right:
-                que.enque(node.right)
-
-        print("")
+                que.enqueue(node.right)
 
 
 #  Tree construct:
@@ -93,21 +92,31 @@ class BinaryTree(object):
 #   6  7
 def main():
     tree = BinaryTree(1)
-    tree.root.left = Node(2)
-    tree.root.right = Node(3)
-    tree.root.left.left = Node(4)
-    tree.root.left.right = Node(5)
-    tree.root.left.right.left = Node(6)
-    tree.root.left.right.right = Node(7)
-    tree.root.right.left = Node(8)
-    tree.root.right.right = Node(9)
+    two = Node(2)
+    three = Node(3)
+    four = Node(4)
+    five = Node(5)
+    six = Node(6)
+    seven = Node(7)
+    eight = Node(8)
+    nine = Node(9)
+
+    tree.root.left = two
+    tree.root.right = three
+    two.left = four
+    two.right = five
+    five.left = six
+    five.right = seven
+    three.left = eight
+    three.right = nine
+
     print("PreOrder Traversal")
     tree.print_tree('preorder')  # "Ro->L->Ri"  # 1-2-4-5-6-7-3-8-9-
-    print("\nInOrder Traversal")
+    print("InOrder Traversal")
     tree.print_tree('inorder')  # "L->Ro->Ri" # 4-2-6-5-7-1-8-3-9-
-    print("\nPostOrder Traversal")
+    print("PostOrder Traversal")
     tree.print_tree('postorder')  # "L->Ri->Ro" # 4-6-7-5-2-8-9-3-1-
-    print("\nLevelOrder Traversal")
+    print("LevelOrder Traversal")
     tree.print_tree('levelorder')
 
 

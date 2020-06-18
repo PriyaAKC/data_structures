@@ -16,18 +16,18 @@ def level_order_traversal(start):
         return
 
     que = queue.Queue()
-    que.enque(start)
+    que.enqueue(start)
 
     # Now a while loop can be run to iterate through the elements
     traversal = ""
     while que.size() > 0:  # should be printed & check its children till its empty
-        node = que.deque()  # this returns node, not value
+        node = que.dequeue()  # this returns node, not value
         traversal += (str(node.data) + "-")  # can alternatively define peek function in the class defn of queue
 
         if node.left:
-            que.enque(node.left)
+            que.enqueue(node.left)
         if node.right:
-            que.enque(node.right)
+            que.enqueue(node.right)
 
     return traversal
 
