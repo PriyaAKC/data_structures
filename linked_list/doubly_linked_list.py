@@ -1,25 +1,18 @@
-# import node
-# from linked_list import node
+from linked_list import node
 
-# import node
-import sys
 
-class Node(object):
+class DNode(node.Node):
     """
-    Node class for doubly linked list
+    DNode class for doubly linked list inheriting Node class from node
+    Adding new attributes
     """
 
     def __init__(self, data):
-        self.data = data  # is this correct assignment?
-        self.next = None
-        self.prev = None
-
-        # self.data, self.next = node.Node(data) # is this correct assignment?
-        # self.next = None
+        super(DNode, self).__init__(data)
         self.prev = None
 
 
-class DoubleLL:
+class Doubly_LinkedList(object):
     """
     Operations performed
     """
@@ -41,8 +34,8 @@ class DoubleLL:
     def add_at_begin(self, data):
         curr_node = self.head
 
-        # Create nee Dll node
-        new_node = Node(data)
+        # Create new DLL node
+        new_node = DNode(data)
 
         # Check for empty list
         if curr_node is None:
@@ -50,8 +43,8 @@ class DoubleLL:
             self.head = new_node
             self.size += 1
             return
-
-        self.head.prev = new_node  # from None update to nee node
+        # from None update to new node
+        self.head.prev = new_node
         new_node.next = self.head
         self.head = new_node
         new_node.prev = None
@@ -60,8 +53,8 @@ class DoubleLL:
     def add_at_end(self, data):
         curr_node = self.head
 
-        # Create nee Dll node
-        new_node = Node(data)
+        # Create nee DLL node
+        new_node = DNode(data)
 
         # Check for empty list
         if curr_node is None:
@@ -72,21 +65,21 @@ class DoubleLL:
 
         while curr_node.next is not None:
             curr_node = curr_node.next
-        new_node.next = curr_node.next  # that's basically none
+        new_node.next = curr_node.next
         curr_node.next = new_node
-        new_node.prev = curr_node  # This becomes important to define in double, prev kya hai??
+        new_node.prev = curr_node
         self.size += 1
 
     def add_before_position(self, data, position):
         curr_node = self.head
-        new_node = Node(data)
+        new_node = DNode(data)
         counter = 1
 
         # spl case of position =1
         if position == 1:
             new_node.next = self.head
             self.head.prev = new_node
-            new_node.prev = None  # required?
+            new_node.prev = None
 
         while counter != position - 1:
             print("in")
@@ -99,7 +92,7 @@ class DoubleLL:
         self.size += 1
 
     def add_after_position(self, data, position):
-        new_node = Node(data)
+        new_node = DNode(data)
         curr_node = self.head
         counter = 0
 
@@ -113,7 +106,7 @@ class DoubleLL:
         while counter != position:
             curr_node = curr_node.next
             counter += 1
-        curr_node.next.prev = new_node  # Verify if you need a temp var, or this will work?
+        curr_node.next.prev = new_node  #
         new_node.next = curr_node.next
         new_node.prev = curr_node
         curr_node.next = new_node
@@ -135,7 +128,7 @@ class DoubleLL:
                 prev.next = None
                 curr_node = None
                 return
-            # Case 3: when key in middle somewhere : Should there be a special case of 2 elements?
+            # Case 3: when key in middle somewhere
             elif curr_node is not None and curr_node.data == key:
                 prev = curr_node.prev
                 prev.next = curr_node.next
@@ -146,7 +139,7 @@ class DoubleLL:
 
     def reverse(self):  # Update for efficient method
 
-        # begin_point, end_point = self.head # ERR! cannot unpack non-iterable Node object
+
         begin_point = self.head
         end_point = self.head
 
@@ -154,8 +147,6 @@ class DoubleLL:
             end_point = end_point.next
         temp = -1
         count = 1
-
-        # if self.size%2 == 0:
 
         while count <= int(self.size // 2):
             temp = begin_point.data
@@ -205,34 +196,33 @@ class DoubleLL:
 
 
 def main():
-    print(sys.path)
-    # dll = DoubleLL()
-    # dll.add_at_begin(3)
-    # dll.add_at_end(5)
-    # dll.display()
-    # print("##########")
-    # print("Size", dll.size)
-    # dll.add_before_position(4, 2)
-    # dll.display()
-    # print("##########")
-    # dll.add_after_position(6, 3)
-    # print("Size", dll.size)
-    # dll.display()
-    # print("##########")
-    # dll.del_node(3)
-    # dll.display()
-    # print("##########")
-    # dll.del_node(6)
-    # dll.display()
-    # dll.reverse()
-    # dll.display()
-    # dll.add_before_position(4, 2)
-    # dll.display()
-    # print("********")
-    # dll.remove_duplicates()
-    # dll.display()
-    # print("##########")
-    # print(dll.sum_pairs(12))
+    dll = Doubly_LinkedList()
+    dll.add_at_begin(3)
+    dll.add_at_end(5)
+    dll.display()
+    print("##########")
+    print("Size", dll.size)
+    dll.add_before_position(4, 2)
+    dll.display()
+    print("##########")
+    dll.add_after_position(6, 3)
+    print("Size", dll.size)
+    dll.display()
+    print("##########")
+    dll.del_node(3)
+    dll.display()
+    print("##########")
+    dll.del_node(6)
+    dll.display()
+    dll.reverse()
+    dll.display()
+    dll.add_before_position(4, 2)
+    dll.display()
+    print("********")
+    dll.remove_duplicates()
+    dll.display()
+    print("##########")
+    print(dll.sum_pairs(12))
 
 
 if __name__ == '__main__':

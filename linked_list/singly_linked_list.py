@@ -57,14 +57,17 @@ class Singly_LinkedList():
 
     def insert_begin(self, data):
         new = node.Node(data)
+        if self.head is None:
+            self.head = new
+            return
+
         new.next = self.head
         self.head = new
-        print("Inserted at beginning")
+        #print("Inserted at beginning")
 
     def insert_end(self, data):
         new = node.Node(data)
 
-        # for empty case
         if self.head is None:
             print("Empty List, adding first element")
             self.head = new
@@ -79,7 +82,7 @@ class Singly_LinkedList():
     def data_at_position(self, k):
         p = self.head
         position = 0
-        while p.next != None:
+        while p.next is not None:
             print("inside while loop")
             if position == k - 1:
                 print("in condition")
@@ -156,7 +159,9 @@ class Singly_LinkedList():
 
 def main():
     new_list = Singly_LinkedList()
+    print(new_list.display_list())
     new_list.insert_begin(4)
+    print(new_list.display_list())
     new_list.insert_end(5)
     new_list.insert_at_position(10, 1)
     new_list.insert_after(10, 25)
