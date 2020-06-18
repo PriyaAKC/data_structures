@@ -10,10 +10,11 @@ class Queue(object):
         self.items = []
 
     def is_empty(self):
+        if not self.items:
+            print("Empty List")
         return len(self.items) == 0
 
     def display_queue(self):
-        # return self.items  #=> Should this be the case or below: use print(func_call) in that call
         for i in self.items:
             print(i, end=" ")
         print("")
@@ -24,6 +25,10 @@ class Queue(object):
     def dequeue(self):  # similar  to pop in stack
         if not self.is_empty():
             return self.items.pop(0)
+
+    def peep(self):
+        if not self.is_empty():
+            return self.items[0]
 
     def size(self):
         return len(self.items)
@@ -40,11 +45,13 @@ def main():
     que.enqueue(10)
     que.display_queue()  # call using print(fn) when return is used in fn definition
     print("####")
+    print(que.peep())
+    print("****")
     que.dequeue()
     que.display_queue()
     print("####")
     print("Size", que.size())
-    print(len(que))  # so how to differentiate!! QS
+    print(len(que))
 
 
 if __name__ == "__main__":

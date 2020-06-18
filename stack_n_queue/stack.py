@@ -1,12 +1,14 @@
 # Stack : FILO First In-> Last Out : modification of a list
-
 # Operations : Push & Pop ; Fundamental
 
 
 class Stack():
+    """
+    Makes use of lists, operations easily use list's built-in functions
+    """
 
     def __init__(self):
-        self.items = []  # begin with an empty list, easily use lists built-in functions
+        self.items = []
 
     def is_empty(self):
         if not self.items:
