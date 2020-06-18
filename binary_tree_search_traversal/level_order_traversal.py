@@ -1,4 +1,5 @@
-from binary_tree_search_traversal.binary_tree import BinaryTree, Node
+from binary_tree_search_traversal.binary_tree import BinaryTree
+from binary_tree_search_traversal.binary_node import Node
 from stack_n_queue import queue
 
 
