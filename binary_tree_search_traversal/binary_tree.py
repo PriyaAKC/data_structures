@@ -1,19 +1,10 @@
 from stack_n_queue import queue
-
-
-class Node(object):
-    def __init__(self, data):
-        self.data = data
-        self.left = None
-        self.right = None
-
-    def __str__(self):
-        return str(self.data)
+from binary_tree_search_traversal import binary_node
 
 
 class BinaryTree(object):
     def __init__(self, root):
-        self.root = Node(root)
+        self.root = binary_node.Node(root)
 
     def print_tree(self, traversal_type):
         if traversal_type == 'preorder':
@@ -66,6 +57,7 @@ class BinaryTree(object):
         :return:
         """
         if start is None:
+            print("Empty Tree!")
             return
 
         que = queue.Queue()
@@ -92,14 +84,14 @@ class BinaryTree(object):
 #   6  7
 def main():
     tree = BinaryTree(1)
-    two = Node(2)
-    three = Node(3)
-    four = Node(4)
-    five = Node(5)
-    six = Node(6)
-    seven = Node(7)
-    eight = Node(8)
-    nine = Node(9)
+    two = binary_node.Node(2)
+    three = binary_node.Node(3)
+    four = binary_node.Node(4)
+    five = binary_node.Node(5)
+    six = binary_node.Node(6)
+    seven = binary_node.Node(7)
+    eight = binary_node.Node(8)
+    nine = binary_node.Node(9)
 
     tree.root.left = two
     tree.root.right = three
